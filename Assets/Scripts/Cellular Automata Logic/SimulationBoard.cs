@@ -7,8 +7,11 @@ public class SimulationBoard
     private Board board;
 
     public int width { get; private set; }
-
     public int height { get; private set; }
+
+    List<Rule> rules = new List<Rule>();
+
+
     public SimulationBoard(int width, int height)
     {
         this.width = width;
@@ -16,69 +19,38 @@ public class SimulationBoard
         board = new Board(width, height);
     }
 
+    public void SetRules(List<Rule> rules)
+    {
+        this.rules = rules;
+    }
+
     public void Step()
     {
-        // Copy of the current board state
-        Cell[,] copy = new Cell[board.width, board.height];
-        for (int y = 0; y < board.height; y++)
-        {
-            for (int x = 0; x < board.width; x++)
-            {
-                Vector3 currentValue = board.GetCell(x, y).value;
-                copy[x, y] = new Cell(currentValue);
-            }
-        }
+        Board boardCopy = new Board(board.width, board.height);
+        boardCopy.SetBoard(board.cells);
 
         // Apply rules to each cell
-        for (int y = 0; y < board.height; y++)
+        foreach(Rule rule in rules)
         {
-            for (int x = 0; x < board.width; x++)
+            for (int y = 0; y < board.height; y++)
             {
-                ApplyRules(x, y, copy);
-            }
-        }
-    }
-
-    private void ApplyRules(int x, int y, Cell[,] copy)
-    {
-        // Count the number of alive neighbors
-        int aliveNeighbors = 0;
-
-        for (int yOffset = -1; yOffset <= 1; yOffset++)
-        {
-            for (int xOffset = -1; xOffset <= 1; xOffset++)
-            {
-                if (xOffset == 0 && yOffset == 0)
-                    continue;
-
-                int neighborX = x + xOffset;
-                int neighborY = y + yOffset;
-
-                if (neighborX >= 0 && neighborY >= 0 && neighborX < board.width && neighborY < board.height)
+                for (int x = 0; x < board.width; x++)
                 {
-                    Vector3 value = copy[neighborX, neighborY].value;
-                    if (value == Vector3.one) // Check if the neighbor cell is alive
-                    {
-                        aliveNeighbors++;
-                    }
+                    ApplyRule(x, y, rule, boardCopy);
                 }
             }
-        }
 
-        // Apply the Game of Life rules
-        Vector3 currentCell = board.GetCell(x, y).value;
-        if (currentCell == Vector3.one && (aliveNeighbors < 2 || aliveNeighbors > 3))
-        {
-            // Any live cell with fewer than two live neighbors dies, as if by underpopulation.
-            // Any live cell with more than three live neighbors dies, as if by overpopulation.
-            board.SetCell(x, y, Vector3.zero);
+            boardCopy.SetBoard(board.cells);
         }
-        else if (currentCell == Vector3.zero && aliveNeighbors == 3)
-        {
-            // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
-            board.SetCell(x, y, Vector3.one);
-        }
+        
     }
+
+    private void ApplyRule(int x, int y, Rule rule, Board baseBoard)
+    {
+        Vector3 newCellValue = rule.ApplyRuleOnCell(x, y, baseBoard);
+        board.SetCellValue(x, y, newCellValue);
+    }
+
 
 
     public Cell GetCell(int x, int y)

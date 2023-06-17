@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,22 +24,51 @@ public class Board
         }
     }
 
+    public void SetBoard(Cell[,] cells) {
+        this.cells = cells;
+    }
+
     public Cell GetCell(int x, int y)
     {
-        if (x < 0 || y < 0 || x >= width || y >= height)
-        {
-            return null;
-        }
+        // Wrap around if x or y is outside the board's bounds
+        x = WrapAround(x, width);
+        y = WrapAround(y, height);
         return cells[x, y];
+    }
+
+    public Vector3 GetCellValue(int x, int y)
+    {
+        // Wrap around if x or y is outside the board's bounds
+        x = WrapAround(x, width);
+        y = WrapAround(y, height);
+        return cells[x, y].value;
     }
 
     public void SetCell(int x, int y, Vector3 value)
     {
-        if (x < 0 || y < 0 || x >= width || y >= height)
+        // Wrap around if x or y is outside the board's bounds
+        x = WrapAround(x, width);
+        y = WrapAround(y, height);
+        cells[x, y].value = value;
+    }
+
+    private int WrapAround(int value, int max)
+    {
+        if (value < 0)
         {
-            return;
+            value = max - 1;
         }
+        else if (value >= max)
+        {
+            value = 0;
+        }
+        return value;
+    }
+
+    internal void SetCellValue(int x, int y, Vector3 value)
+    {
+        x = WrapAround(x, width);
+        y = WrapAround(y, height);
         cells[x, y].value = value;
     }
 }
-

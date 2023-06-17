@@ -8,9 +8,14 @@ public class BoardController : MonoBehaviour
     SimulationBoard simulationBoard;
     Texture2D texture;
 
+    [SerializeField]
+    List<Rule> rules;
+
     void Start()
     {
         simulationBoard = new SimulationBoard(50, 50);
+        simulationBoard.SetRules(rules);
+
         texture = new Texture2D(simulationBoard.width, simulationBoard.height, TextureFormat.RGBA32, false);
         texture.filterMode = FilterMode.Point;
         texture.wrapMode = TextureWrapMode.Clamp;
