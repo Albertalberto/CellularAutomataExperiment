@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rules:
-  - {fileID: 11400000, guid: 1b4e361b98554284db6495ecdcad0368, type: 2}
+  - {fileID: 11400000, guid: b5a340e4df6cd3440924018e627ec988, type: 2}
 --- !u!33 &1025681183
 MeshFilter:
   m_ObjectHideFlags: 0

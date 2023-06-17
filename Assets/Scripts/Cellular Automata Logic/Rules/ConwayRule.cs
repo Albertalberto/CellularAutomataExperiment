@@ -7,7 +7,6 @@ public class ConwayRule : Rule
 {
     public override Vector3 ApplyRuleOnCell(int x, int y, Board board)
     {
-        // Count the number of alive neighbors
         int aliveNeighbors = 0;
 
         for (int yOffset = -1; yOffset <= 1; yOffset++)
@@ -22,7 +21,7 @@ public class ConwayRule : Rule
 
                 if (neighborX >= 0 && neighborY >= 0 && neighborX < board.width && neighborY < board.height)
                 {
-                    Vector3 value = board.GetCellValue(neighborX, neighborY);  // change from (x, y) to (neighborX, neighborY)
+                    Vector3 value = board.GetCellValue(neighborX, neighborY);
                     if (value == Vector3.one)
                     {
                         aliveNeighbors++;
@@ -32,7 +31,7 @@ public class ConwayRule : Rule
         }
 
         Vector3 currentCell = board.GetCell(x, y).value;
-        if (currentCell == Vector3.one && (aliveNeighbors < 2 || aliveNeighbors > 3))
+        if (currentCell != Vector3.zero && (aliveNeighbors < 2 || aliveNeighbors > 3))
         {
             return Vector3.zero;
         }
@@ -41,7 +40,7 @@ public class ConwayRule : Rule
             return Vector3.one;
         }
 
-        return currentCell; // if no condition applies, return the current cell's state
+        return currentCell;
     }
 
 }
