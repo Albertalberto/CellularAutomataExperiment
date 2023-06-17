@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6996567edf54324f9ee45773c170679, type: 3}
-  m_Name: ToggleState
+  m_Script: {fileID: 11500000, guid: 3ad5078eef77d2a4aa4f5a414ea08e8b, type: 3}
+  m_Name: Move down
   m_EditorClassIdentifier: 
+  movement: {x: 0, y: -1}

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7ef7c174e879640bfc0963dbe7f429, type: 3}
   m_Name: AgeToRed
   m_EditorClassIdentifier: 
-  multiplier: {x: 0.9, y: 0.7, z: 0.7}
+  multiplier: {r: 1, g: 0.91886795, b: 0.91886795, a: 0}

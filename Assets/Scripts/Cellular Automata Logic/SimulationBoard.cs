@@ -26,30 +26,32 @@ public class SimulationBoard
 
     public void Step()
     {
+        // Create a copy of the current board
         Board boardCopy = new Board(board.width, board.height);
         boardCopy.SetBoard(board.cells);
 
         // Apply rules to each cell
-        foreach(Rule rule in rules)
+        foreach (Rule rule in rules)
         {
             for (int y = 0; y < board.height; y++)
             {
                 for (int x = 0; x < board.width; x++)
                 {
+                    // Use the copy of the board as the basis for applying the rules
                     ApplyRule(x, y, rule, boardCopy);
                 }
             }
-
             boardCopy.SetBoard(board.cells);
         }
-        
     }
+
 
     private void ApplyRule(int x, int y, Rule rule, Board baseBoard)
     {
         Vector3 newCellValue = rule.ApplyRuleOnCell(x, y, baseBoard);
-        board.SetCellValue(x, y, newCellValue);
+        board.SetCell(x, y, newCellValue);  // Apply the changes to the original board
     }
+
 
 
 

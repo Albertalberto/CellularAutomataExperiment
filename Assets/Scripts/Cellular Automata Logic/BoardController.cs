@@ -38,9 +38,16 @@ public class BoardController : MonoBehaviour
         {
             for (int x = 0; x < simulationBoard.width; x++)
             {
-                simulationBoard.SetCell(x, y, Vector3.one);
+                simulationBoard.SetCell(x, y, Vector3.zero);
             }
         }
+
+        // Draw a glider
+        simulationBoard.SetCell(1, 0, Vector3.one);
+        simulationBoard.SetCell(2, 1, Vector3.one);
+        simulationBoard.SetCell(0, 2, Vector3.one);
+        simulationBoard.SetCell(1, 2, Vector3.one);
+        simulationBoard.SetCell(2, 2, Vector3.one);
     }
 
 

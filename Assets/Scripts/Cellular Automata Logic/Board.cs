@@ -24,9 +24,17 @@ public class Board
         }
     }
 
-    public void SetBoard(Cell[,] cells) {
-        this.cells = cells;
+    public void SetBoard(Cell[,] cells)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                this.cells[x, y].value = cells[x, y].value;
+            }
+        }
     }
+
 
     public Cell GetCell(int x, int y)
     {

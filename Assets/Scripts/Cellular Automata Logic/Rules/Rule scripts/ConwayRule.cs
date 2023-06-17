@@ -7,40 +7,43 @@ public class ConwayRule : Rule
 {
     public override Vector3 ApplyRuleOnCell(int x, int y, Board board)
     {
-        int aliveNeighbors = 0;
+        int aliveNeighbours = 0;
+        Vector3 alive = new Vector3(1, 1, 1);
+        Vector3 dead = Vector3.zero;
 
-        for (int yOffset = -1; yOffset <= 1; yOffset++)
+        // Count the alive neighbours
+        for (int i = -1; i <= 1; i++)
         {
-            for (int xOffset = -1; xOffset <= 1; xOffset++)
+            for (int j = -1; j <= 1; j++)
             {
-                if (xOffset == 0 && yOffset == 0)
+                if (i == 0 && j == 0)
                     continue;
 
-                int neighborX = x + xOffset;
-                int neighborY = y + yOffset;
-
-                if (neighborX >= 0 && neighborY >= 0 && neighborX < board.width && neighborY < board.height)
-                {
-                    Vector3 value = board.GetCellValue(neighborX, neighborY);
-                    if (value == Vector3.one)
-                    {
-                        aliveNeighbors++;
-                    }
-                }
+                Vector3 neighbourValue = board.GetCell(x + i, y + j).value;
+                if (neighbourValue == alive)
+                    aliveNeighbours++;
             }
         }
 
-        Vector3 currentCell = board.GetCell(x, y).value;
-        if (currentCell != Vector3.zero && (aliveNeighbors < 2 || aliveNeighbors > 3))
-        {
-            return Vector3.zero;
-        }
-        else if (currentCell == Vector3.zero && aliveNeighbors == 3)
-        {
-            return Vector3.one;
-        }
+        Vector3 currentValue = board.GetCell(x, y).value;
 
-        return currentCell;
+        // Apply the rules of Game of Life
+        if (currentValue == alive && (aliveNeighbours < 2 || aliveNeighbours > 3))
+        {
+            // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+            // Any live cell with more than three live neighbours dies, as if by overpopulation.
+            return dead;
+        }
+        else if (aliveNeighbours == 3)
+        {
+            // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+            return alive;
+        }
+        else
+        {
+            // Any live cell with two or three live neighbours lives on to the next generation.
+            return currentValue;
+        }
     }
 
 }
