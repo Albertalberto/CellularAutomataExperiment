@@ -11,6 +11,8 @@ public class BoardController : MonoBehaviour
     [SerializeField]
     List<Rule> rules;
 
+    bool simulationActive = false;
+
     void Start()
     {
         simulationBoard = new SimulationBoard(50, 50);
@@ -51,9 +53,15 @@ public class BoardController : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Space))
+        {
+            simulationBoard.Step();
+            UpdateTexture();
+        }
+
+        if (simulationActive)
         {
             simulationBoard.Step();
             UpdateTexture();
@@ -72,5 +80,21 @@ public class BoardController : MonoBehaviour
         }
 
         texture.Apply();
+    }
+
+    //External events
+    private void OnEnable()
+    {
+        MenuController.OnToggleSimulation += ToggleSimulation;
+    }
+
+    private void OnDisable()
+    {
+        MenuController.OnToggleSimulation -= ToggleSimulation;
+    }
+
+    void ToggleSimulation()
+    {
+        simulationActive = !simulationActive;
     }
 }
