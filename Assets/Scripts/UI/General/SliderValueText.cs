@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SliderValueText : MonoBehaviour
 {
     private Slider slider;
-    private Text textComp;
+    private TextMeshProUGUI textComp;
 
     void Awake()
     {
         slider = GetComponentInParent<Slider>();
-        textComp = GetComponent<Text>();
+        textComp = GetComponent<TextMeshProUGUI>();
     }
 
     void Start()
@@ -20,7 +21,6 @@ public class SliderValueText : MonoBehaviour
 
     void UpdateText(float val)
     {
-        //textComp.text = slider.value.ToString();
         textComp.text = val.ToString();
     }
 }
