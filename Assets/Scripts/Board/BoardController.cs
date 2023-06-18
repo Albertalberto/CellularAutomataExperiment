@@ -19,6 +19,7 @@ public class BoardController : MonoBehaviour
     int width = 50;
     int height = 50;
 
+    bool stepFlag;
     void Start()
     {
         mesh = GetComponent<MeshFilter>();
@@ -60,23 +61,37 @@ public class BoardController : MonoBehaviour
         simulationBoard.SetCell(2, 2, Vector3.one);
     }
 
+    private void Update()
+    {
+        frameCount++;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            stepFlag = true;
+        }
+
+    }
+
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (stepFlag)
         {
-            simulationBoard.Step();
-            UpdateTexture();
+            takeStep();
+            stepFlag = false;
         }
 
         frameCount++;
-
         if (simulationActive && frameCount >= simulationSpeed)
         {
-            simulationBoard.Step();
-            UpdateTexture();
             frameCount = 0;
+            stepFlag = true;
         }
+    }
+
+    void takeStep()
+    {
+        simulationBoard.Step();
+        UpdateTexture();
     }
 
     void UpdateTexture()
