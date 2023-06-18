@@ -12,6 +12,8 @@ public class BoardController : MonoBehaviour
     List<Rule> rules;
 
     bool simulationActive = false;
+    private int simulationSpeed = 5;
+    private int frameCount = 0;
 
     void Start()
     {
@@ -61,10 +63,13 @@ public class BoardController : MonoBehaviour
             UpdateTexture();
         }
 
-        if (simulationActive)
+        frameCount++;
+
+        if (simulationActive && frameCount >= simulationSpeed)
         {
             simulationBoard.Step();
             UpdateTexture();
+            frameCount = 0;
         }
     }
 
@@ -85,16 +90,23 @@ public class BoardController : MonoBehaviour
     //External events
     private void OnEnable()
     {
-        MenuController.OnToggleSimulation += ToggleSimulation;
+        MenuController.OnToggleSimulation += SetSimulationActive;
+        MenuController.OnSimulationSpeedChanged += HandleSimulationSpeedChanged;
     }
 
     private void OnDisable()
     {
-        MenuController.OnToggleSimulation -= ToggleSimulation;
+        MenuController.OnToggleSimulation -= SetSimulationActive;
+        MenuController.OnSimulationSpeedChanged -= HandleSimulationSpeedChanged;
     }
 
-    void ToggleSimulation()
+    void SetSimulationActive(bool isSimulationActive)
     {
-        simulationActive = !simulationActive;
+        simulationActive = isSimulationActive;
+    }
+
+    private void HandleSimulationSpeedChanged(int newSpeed)
+    {
+        simulationSpeed = newSpeed;
     }
 }
