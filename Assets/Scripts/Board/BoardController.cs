@@ -133,7 +133,7 @@ public class BoardController : MonoBehaviour
         simulationSpeed = newSpeed;
     }
 
-    void HandleCellClicked(float x, float y, Vector3 value)
+    void HandleCellClicked(float x, float y, Vector3 value, int brushSize, int brushType)
     {
         // Get the bounds of the mesh
         Bounds meshBounds = GetComponent<MeshRenderer>().bounds;
@@ -153,12 +153,53 @@ public class BoardController : MonoBehaviour
         int xCoord = Mathf.FloorToInt(clickedPosition.x * simulationBoard.width);
         int yCoord = Mathf.FloorToInt(clickedPosition.y * simulationBoard.height);
 
-        // Ensure that the coordinates are within the board's bounds
+
         xCoord = Mathf.Clamp(xCoord, 0, simulationBoard.width - 1);
         yCoord = Mathf.Clamp(yCoord, 0, simulationBoard.height - 1);
 
-        // Update the cell
-        if (simulationBoard.SetCell(xCoord, yCoord, value))
+        bool updated = false;
+
+        brushSize--;
+
+        if (brushType == DrawingController.SQUARE_BRUSH)
+        {
+            for (int i = -brushSize; i <= brushSize; i++)
+            {
+                for (int j = -brushSize; j <= brushSize; j++)
+                {
+                    int currentX = xCoord + i;
+                    int currentY = yCoord + j;
+
+                    if (currentX >= 0 && currentX < simulationBoard.width &&
+                        currentY >= 0 && currentY < simulationBoard.height)
+                    {
+                        updated |= simulationBoard.SetCell(currentX, currentY, value);
+                    }
+                }
+            }
+        } else if (brushType == DrawingController.CIRCLE_BRUSH)
+        {
+            for (int i = -brushSize; i <= brushSize; i++)
+            {
+                for (int j = -brushSize; j <= brushSize; j++)
+                {
+                    // Check if the point falls within the circle
+                    if (i * i + j * j <= brushSize * brushSize)
+                    {
+                        int currentX = xCoord + i;
+                        int currentY = yCoord + j;
+
+                        if (currentX >= 0 && currentX < simulationBoard.width &&
+                            currentY >= 0 && currentY < simulationBoard.height)
+                        {
+                            updated |= simulationBoard.SetCell(currentX, currentY, value);
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (updated)
         {
             UpdateTexture();
         }

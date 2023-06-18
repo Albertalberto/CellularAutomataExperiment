@@ -1588,7 +1588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rules:
-  - {fileID: 11400000, guid: 03390ac8b6ef69142bf178c8ec6707b3, type: 2}
+  - {fileID: 11400000, guid: 89ece3c044e2c204a9153d3ac9ff12b9, type: 2}
 --- !u!33 &1025681183
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1610,6 +1610,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentColor: {r: 1, g: 1, b: 1, a: 0}
+  brushSize: 1
+  brushType: 2
 --- !u!64 &1025681185
 MeshCollider:
   m_ObjectHideFlags: 0
