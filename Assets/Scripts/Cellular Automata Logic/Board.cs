@@ -64,14 +64,15 @@ public class Board
     {
         if (value < 0)
         {
-            value = max - 1;
+            value = (value % max + max) % max;
         }
-        else if (value >= max)
+        else
         {
-            value = 0;
+            value = value % max;
         }
         return value;
     }
+
 
     internal void SetCellValue(int x, int y, Vector3 value)
     {
