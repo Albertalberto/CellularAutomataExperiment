@@ -60,9 +60,15 @@ public class SimulationBoard
         return board.GetCell(x, y);
     }
 
-    public void SetCell(int x, int y, Vector3 value)
+    public bool SetCell(int x, int y, Vector3 value)
     {
-        board.SetCell(x, y, value);
+        if (board.GetCell(x, y).value != value)
+        {
+            board.SetCell(x, y, value);
+            return true;
+        }
+        return false;
     }
+
 
 }
