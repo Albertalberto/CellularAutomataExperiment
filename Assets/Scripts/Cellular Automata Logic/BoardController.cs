@@ -12,7 +12,7 @@ public class BoardController : MonoBehaviour
     List<Rule> rules;
 
     bool simulationActive = false;
-    private int simulationSpeed = 5;
+    private int simulationSpeed = 3;
     private int frameCount = 0;
 
     void Start()
