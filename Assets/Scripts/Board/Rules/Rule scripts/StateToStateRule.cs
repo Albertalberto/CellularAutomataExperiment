@@ -11,6 +11,7 @@ public class Vector3Row
 [CreateAssetMenu(menuName = "Rules/StateToState Rule")]
 public class StateToStateRule : Rule
 {
+
     [SerializeField]
     private List<Vector3Row> initialState = new List<Vector3Row>();
 
@@ -38,7 +39,7 @@ public class StateToStateRule : Rule
         {
             for (int j = 0; j < stateToCheck[i].row.Count; j++)
             {
-                if (stateToCheck[i].row[j] == board.GetCell(x, y).value)
+                if (stateToCheck[i].row[j] == board.GetCell(x, y).value || stateToCheck[i].row[j] == new Vector3(-1, -1, -1))
                 {
                     if (CheckIfStateMatches(x - j, y - i, board, stateToCheck))
                     {
