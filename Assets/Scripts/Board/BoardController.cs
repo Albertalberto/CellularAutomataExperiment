@@ -54,11 +54,8 @@ public class BoardController : MonoBehaviour
         }
 
         // Draw a glider
-        simulationBoard.SetCell(1, 0, Vector3.one);
         simulationBoard.SetCell(2, 1, Vector3.one);
-        simulationBoard.SetCell(0, 2, Vector3.one);
-        simulationBoard.SetCell(1, 2, Vector3.one);
-        simulationBoard.SetCell(2, 2, Vector3.one);
+        simulationBoard.SetCell(3, 1, new Vector3(1, 0, 0));
     }
 
     private void Update()
